@@ -1,0 +1,16 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+    {% for job in jobs %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ job.agency }}</a>
+              <small class="text-muted">{{ job.date_posted|date:"N d, Y" }}</small>
+            </div>
+            <h2><a class="article-title" href="#">{{ job.job_title }}</a></h2>
+            <p class="article-content">{{ job.requirements }}</p>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
