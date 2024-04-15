@@ -1,0 +1,13 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<h2>My Favorite Jobs</h2>
+<p>Total jobs: {{ jobs.count }}</p>  <!-- Debug to show how many jobs are being passed -->
+<ul>
+    {% for job in jobs %}
+    <li>{{ job.title }} - <a href="{% url 'favorite-jobs' %}">View</a></li>
+    {% empty %}
+    <li>No favorite jobs added yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

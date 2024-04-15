@@ -1,0 +1,43 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<!-- Search Form -->
+<form method="get" action="{% url 'search_results' %}">
+    <select name="state_code" multiple>
+        <option value="">Any State</option>
+        {% for state in states %}
+            <option value="{{ state }}" {% if state in selected_states %}selected{% endif %}>{{ state }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Search</button>
+</form>
+
+<!-- Search Results -->
+{% if page_obj %}
+    {% for job in page_obj %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="#">{{ job.title }}</a>
+                    <small class="text-muted">{{ job.date_posted }}</small>
+                </div>
+                <h2><a class="article-title" href="#">{{ job.location }}</a></h2>
+                <p class="article-content">{{ job.description }}</p>
+            </div>
+        </article>
+    {% endfor %}
+
+    <!-- Pagination Links -->
+    <div>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}&{{ query_string }}">Previous</a>
+        {% endif %}
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}&{{ query_string }}">Next</a>
+        {% endif %}
+    </div>
+{% else %}
+    <p>No jobs found.</p>
+{% endif %}
+{% endblock content %}
