@@ -76,17 +76,56 @@ WSGI_APPLICATION = "django_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql', 
+#         'NAME': 'jobs',                        
+#         'HOST': 'localhost',                  
+#         'PORT': '3306',                        
+#         'USER': 'root',                     
+#         'PASSWORD': 'password', 
+#         'OPTIONS': {
+#             'charset': 'utf8mb4',
+#         },               
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'jobs',                        
-        'HOST': 'localhost',                  
-        'PORT': '3306',                        
-        'USER': 'root',                     
-        'PASSWORD': 'password', 
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'jobs'
+    },
+    'east_coast_db': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'east_coast',
+        'USER': 'root',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '3306',
         'OPTIONS': {
             'charset': 'utf8mb4',
-        },               
+        }, 
+    },
+    'west_coast_db': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'west_coast',
+        'USER': 'root',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        }, 
+    },
+    'mid_states_db': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mid_states',
+        'USER': 'root',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },         
     }
 }
 
