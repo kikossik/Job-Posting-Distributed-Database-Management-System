@@ -5,7 +5,7 @@
 
 ## Description of Directories
 - [Django Frontend Design](https://github.com/Jinyangd/DSCI551_Group48_Project/tree/main/django_project)
-  Our amazing Frontend Django Design, including with all the backend functionalities as well.
+  Our amazing Frontend Django Design, including with all the backend functionalities.
 - [Direction to the Hash Function](https://github.com/Jinyangd/DSCI551_Group48_Project/blob/main/django_project/blog/management/commands/import_jobs.py)
   The mainly Hash function to get the partition.
 - [LinkedIn Scrape](https://github.com/Jinyangd/DSCI551_Group48_Project/blob/main/linkedin_scrape.py)
