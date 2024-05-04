@@ -1,0 +1,22 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                <!-- Directly display the agency string and update the link -->
+                <span class="mr-2">{{ object.agency }}</span>
+                <small class="text-muted">{{ object.date_posted|date:"N d, Y" }}</small>
+                
+                <!-- Check if the logged-in user's username matches the agency string -->
+                {% if object.agency == user.username %}
+                    <div>
+                        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'job-update' object.id %}">Update</a>
+                        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'job-delete' object.id %}">Delete</a>
+                    </div>
+                {% endif %}
+            </div>
+            <h2 class="article-title">{{ object.job_title }}</h2>
+            <p class="article-content">{{ object.description }}</p>
+        </div>
+    </article>
+{% endblock content %}

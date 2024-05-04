@@ -1,26 +1,22 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-# from blog.management.commands.date_manipulation import parse_relative_date
+from django.urls import reverse
 import re
 from datetime import datetime, timedelta
 
 states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 
-'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 
-'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 
-'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 
-'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
+    'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 
+    'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 
+    'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 
+    'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
 ]
 
-
 class Job(models.Model):
-    # job_title = models.CharField(max_length=255)
-    # requirements = models.TextField()
+    job_title = models.CharField(max_length=100)
+    # requirements = models.TextField(max_length=200)
     # date_posted = models.DateTimeField(default=timezone.now)
-    # agency = models.ForeignKey(User, on_delete=models.CASCADE)
-    # id = models.CharField(max_length=20,primary_key=True, serialize=False)    
-    title = models.CharField(max_length=255, default="")
-    company = models.CharField(max_length=255, default="")
+    agency = models.CharField(max_length=255, default="")
     location = models.CharField(max_length=100, default="")
     link = models.TextField(default="")
     description = models.TextField(default="")
@@ -39,11 +35,12 @@ class Job(models.Model):
         state_code = row['location'].split(',')[-1].strip()[-2:]
         if state_code in states:
             formatted_date = cls.parse_relative_date(row['posted time']) # assuming you want a date object
+            
             # formatted_date = datetime.strftime(formatted_date, '%B/%d/%Y')
             # formatted_date = formatted_date.strftime('%B %d, %Y')
             return cls(
-                title=row['title'],
-                company=row['company'],
+                job_title=row['title'],
+                agency=row['company'],
                 location=row['location'],
                 link=row['link'],
                 description=row['description'],
@@ -74,19 +71,49 @@ class Job(models.Model):
             return current_time - timedelta(days=number * 365)  # Approximation of a year
         else:
             return current_time  # Default to current time if no time unit found
-
-
+        
     def formatted_actual_date(self):
         return self.actual_date.strftime('%B %d, %Y')
     
     def __str__(self):
-        return self.title
+        return self.job_title
+
+    def get_absolute_url(self):
+        return reverse('job-detail', kwargs={'pk': self.pk})
 
 
-
-# class FavoriteJob(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     job = models.ForeignKey(Job, on_delete=models.CASCADE)
-
-#     class Meta:
-#         unique_together = ('user', 'job')  # Ensures that the same job is not favorited multiple times by the same user
+# from django.db import models
+# from django.utils import timezone
+# from django.contrib.auth.models import User
+# from django.urls import reverse
+#
+# # Import the hash function
+# from .hash_function import hash_function
+#
+#
+# class Job(models.Model):
+#     job_title = models.CharField(max_length=100)
+#     requirements = models.TextField(max_length=200)
+#     date_posted = models.DateTimeField(default=timezone.now)
+#     company = models.ForeignKey(User, on_delete=models.CASCADE)
+#
+#     def __str__(self):
+#         return self.job_title
+#
+#     def get_absolute_url(self):
+#         return reverse('job-detail', kwargs={'pk': self.pk})
+#
+#     def save(self, *args, **kwargs):
+#         # Calculate the hash value based on the job title
+#         hash_value = hash_function(self)
+#
+#         # Assign the appropriate database alias based on the hash value
+#         if hash_value == 0:
+#             self._state.db = 'db_0'  # Assign the alias for database 1
+#         elif hash_value == 1:
+#             self._state.db = 'db_1'  # Assign the alias for database 2
+#         else:
+#             self._state.db = 'db_2'  # Assign the alias for database 3
+#
+#         # Call the original save method
+#         super().save(*args, **kwargs)

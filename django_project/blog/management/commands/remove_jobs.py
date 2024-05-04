@@ -2,13 +2,15 @@ from datetime import datetime
 from django.core.management.base import BaseCommand
 from django.db.models import Q
 from blog.models import Job
+import warnings
+warnings.simplefilter(action='ignore', category=RuntimeWarning)
 
 class Command(BaseCommand):
     help = 'Remove job listings within a specified date range from a selected database'
 
     def add_arguments(self, parser):
-        parser.add_argument('database', type=str, choices=['east_coast', 'west_coast', 'mid', 'all'],
-                            help='Database to remove jobs from: east_coast, west_coast, mid, or all')
+        parser.add_argument('database', type=str, choices=['first_db', 'second_db', 'third_db', 'all'],
+                            help='Database to remove jobs from: first_db, second_db, third_db, or all')
         parser.add_argument('start_date', type=str, help='Start date (MM/DD/YYYY)')
         parser.add_argument('end_date', type=str, help='End date (MM/DD/YYYY)')
 
@@ -22,9 +24,9 @@ class Command(BaseCommand):
             return
 
         db_mapping = {
-            'east_coast': 'east_coast_db',
-            'west_coast': 'west_coast_db',
-            'mid': 'mid_states_db'
+            'first_db': 'first',
+            'second_db': 'second',
+            'third_db': 'third'
         }
         databases = [db_mapping[db] for db in db_mapping] if database == 'all' else [db_mapping[database]]
 

@@ -1,54 +1,101 @@
 {% extends "blog/base.html" %}
 
-{% load static %}
-
 {% block content %}
+<!-- Search Form -->
+<form method="get" action="{% url 'search_results' %}">
+  <select name="state_code" multiple>
+    <option value="">Select Your State</option>
+    <option value="AL" {% if 'AL' in selected_states %}selected{% endif %}>Alabama</option>
+    <option value="AK" {% if 'AK' in selected_states %}selected{% endif %}>Alaska</option>
+    <option value="AZ" {% if 'AZ' in selected_states %}selected{% endif %}>Arizona</option>
+    <option value="AR" {% if 'AR' in selected_states %}selected{% endif %}>Arkansas</option>
+    <option value="CA" {% if 'CA' in selected_states %}selected{% endif %}>California</option>
+    <option value="CO" {% if 'CO' in selected_states %}selected{% endif %}>Colorado</option>
+    <option value="CT" {% if 'CT' in selected_states %}selected{% endif %}>Connecticut</option>
+    <option value="DE" {% if 'DE' in selected_states %}selected{% endif %}>Delaware</option>
+    <option value="FL" {% if 'FL' in selected_states %}selected{% endif %}>Florida</option>
+    <option value="GA" {% if 'GA' in selected_states %}selected{% endif %}>Georgia</option>
+    <option value="HI" {% if 'HI' in selected_states %}selected{% endif %}>Hawaii</option>
+    <option value="ID" {% if 'ID' in selected_states %}selected{% endif %}>Idaho</option>
+    <option value="IL" {% if 'IL' in selected_states %}selected{% endif %}>Illinois</option>
+    <option value="IN" {% if 'IN' in selected_states %}selected{% endif %}>Indiana</option>
+    <option value="IA" {% if 'IA' in selected_states %}selected{% endif %}>Iowa</option>
+    <option value="KS" {% if 'KS' in selected_states %}selected{% endif %}>Kansas</option>
+    <option value="KY" {% if 'KY' in selected_states %}selected{% endif %}>Kentucky</option>
+    <option value="LA" {% if 'LA' in selected_states %}selected{% endif %}>Louisiana</option>
+    <option value="ME" {% if 'ME' in selected_states %}selected{% endif %}>Maine</option>
+    <option value="MD" {% if 'MD' in selected_states %}selected{% endif %}>Maryland</option>
+    <option value="MA" {% if 'MA' in selected_states %}selected{% endif %}>Massachusetts</option>
+    <option value="MI" {% if 'MI' in selected_states %}selected{% endif %}>Michigan</option>
+    <option value="MN" {% if 'MN' in selected_states %}selected{% endif %}>Minnesota</option>
+    <option value="MS" {% if 'MS' in selected_states %}selected{% endif %}>Mississippi</option>
+    <option value="MO" {% if 'MO' in selected_states %}selected{% endif %}>Missouri</option>
+    <option value="MT" {% if 'MT' in selected_states %}selected{% endif %}>Montana</option>
+    <option value="NE" {% if 'NE' in selected_states %}selected{% endif %}>Nebraska</option>
+    <option value="NV" {% if 'NV' in selected_states %}selected{% endif %}>Nevada</option>
+    <option value="NH" {% if 'NH' in selected_states %}selected{% endif %}>New Hampshire</option>
+    <option value="NJ" {% if 'NJ' in selected_states %}selected{% endif %}>New Jersey</option>
+    <option value="NM" {% if 'NM' in selected_states %}selected{% endif %}>New Mexico</option>
+    <option value="NY" {% if 'NY' in selected_states %}selected{% endif %}>New York</option>
+    <option value="NC" {% if 'NC' in selected_states %}selected{% endif %}>North Carolina</option>
+    <option value="ND" {% if 'ND' in selected_states %}selected{% endif %}>North Dakota</option>
+    <option value="OH" {% if 'OH' in selected_states %}selected{% endif %}>Ohio</option>
+    <option value="OK" {% if 'OK' in selected_states %}selected{% endif %}>Oklahoma</option>
+    <option value="OR" {% if 'OR' in selected_states %}selected{% endif %}>Oregon</option>
+    <option value="PA" {% if 'PA' in selected_states %}selected{% endif %}>Pennsylvania</option>
+    <option value="RI" {% if 'RI' in selected_states %}selected{% endif %}>Rhode Island</option>
+    <option value="SC" {% if 'SC' in selected_states %}selected{% endif %}>South Carolina</option>
+    <option value="SD" {% if 'SD' in selected_states %}selected{% endif %}>South Dakota</option>
+    <option value="TN" {% if 'TN' in selected_states %}selected{% endif %}>Tennessee</option>
+    <option value="TX" {% if 'TX' in selected_states %}selected{% endif %}>Texas</option>
+    <option value="UT" {% if 'UT' in selected_states %}selected{% endif %}>Utah</option>
+    <option value="VT" {% if 'VT' in selected_states %}selected{% endif %}>Vermont</option>
+    <option value="VA" {% if 'VA' in selected_states %}selected{% endif %}>Virginia</option>
+    <option value="WA" {% if 'WA' in selected_states %}selected{% endif %}>Washington</option>
+    <option value="WV" {% if 'WV' in selected_states %}selected{% endif %}>West Virginia</option>
+    <option value="WI" {% if 'WI' in selected_states %}selected{% endif %}>Wisconsin</option>
+    <option value="WY" {% if 'WY' in selected_states %}selected{% endif %}>Wyoming</option>
+</select>
+    <button type="submit">Search</button>
+</form>
 
-    <!-- Display messages -->
-    {% if messages %}
-    <div id="message-container" class="alert alert-info" role="alert">
-        {% for message in messages %}
-        <div>{{ message }}</div>
-        {% endfor %}
-    </div>
-    {% endif %}
-
-    <!-- Iterate over the page_obj provided by the paginator in the view -->
+<!-- Search Results -->
+{% if page_obj %}
     {% for job in page_obj %}
-    <article class="media content-section">
-        <div class="media-body">
-            <div class="article-metadata">
-                <a class="mr-2" href="#">{{ job.title }}</a>
-                <small class="text-muted">{{ job.date_posted }}</small>
-            </div>
-            <h2><a class="article-title" href="#">{{ job.location }}</a></h2>
-            <p class="article-content">{{ job.company }}</p>
-            <p class="article-content">{{ job.formatted_actual_date }}</p>
-            <!-- Add to Favorites Link -->
-            <p><a href="{% url 'add-to-favorites' job.id %}">Add to Favorites</a></p>
-        </div>
-    </article>
+        <article class="media content-section">
+
+            <div class="media-body">
+                <div class="article-metadata">
+                  <a class="mr-2" href="{% url 'user-posts' job.agency %}">{{ job.agency }}</a>
+                  <a class="article-title">{{ job.formatted_actual_date }}</a>
+                </div>
+                <h2><a class="article-title">{{ job.job_title }}</a></h2>
+                <p class="article-content">{{ job.description }}</p>
+              </div>
+        </article>
     {% endfor %}
 
     <!-- Pagination Links -->
-    <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif %}
 
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
+    {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
 
-            {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div>
-    <!-- Link to JavaScript file -->
-    <script src="{% static 'blog/favorites.js' %}"></script>
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
 
+    {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+    {% endif %}
+
+{% else %}
+    <p>No jobs found.</p>
+{% endif %}
 {% endblock content %}

@@ -1,136 +1,153 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView
+)
 from .models import Job
-from django.core.paginator import Paginator
-from django.contrib import messages
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 from urllib.parse import urlencode
+from itertools import chain
+from django.core.paginator import Paginator
 
-states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 
-'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 
-'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 
-'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 
-'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
-]
+DATABASE_MAPPING = {
+    'first': {'NY', 'VT', 'CT', 'DE', 'FL', 'GA', 'ME', 'MD', 'MA', 'NH', 'NJ', 'NC', 'PA', 'RI', 'SC', 'VA', 'WV'},
+    'second': {'CA', 'OR', 'WA', 'AK', 'HI'},
+    'third': {'AL', 'AZ', 'AR', 'CO', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'MN', 'MS', 'MO', 'MT', 'MI', 'NE', 'NV', 'NM', 'ND', 'OH', 'OK', 'SD', 'TN', 'TX', 'UT', 'WI', 'WY'}
+}
+DATABASES = ['first', 'second', 'third']
 
 def home(request):
-    job_list = Job.objects.all()
-    paginator = Paginator(job_list, 20)  
+    d_default_jobs = list(Job.objects.all().order_by('-date_posted'))
+    # Fetch jobs from each specified database, and sort them by `date_posted`
+    d_first_jobs = Job.objects.using('first').all().order_by('-date_posted')
+    d_second_jobs = Job.objects.using('second').all().order_by('-date_posted')
+    d_third_jobs = Job.objects.using('third').all().order_by('-date_posted')
 
-    page_number = request.GET.get('page')
+    # Combine and sort jobs by `date_posted`
+    combined_jobs = d_default_jobs + list(chain(d_first_jobs, d_second_jobs, d_third_jobs))
+
+    # Use Paginator to paginate the combined list
+    paginator = Paginator(combined_jobs, 20)  # 20 jobs per page
+    page_number = request.GET.get('page', 1)  # Default to page 1 if `page` is not in the request
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'blog/home.html', {'page_obj': page_obj})
 
-
 def search_results(request):
-    # job_list = Job.objects.all()
-    # paginator = Paginator(job_list, 20)
-
-    # page_number = request.GET.get('page')
-    # page_obj = paginator.get_page(page_number)
-
-    # Get search parameters from the GET request
-    state_code = request.GET.get('state_code')
     title = request.GET.get('title')
     location = request.GET.get('location')
     employment_type = request.GET.get('employment_type')
     industries = request.GET.get('industries')
-    query = Job.objects.all()
+    selected_states = request.GET.getlist('state_code')
+    combined_query = []
 
-    # Apply filters if parameters are provided
-    if state_code:
-        query = query.filter(state_code=state_code)
-    if title:
-        query = query.filter(title__icontains=title)
-    if location:
-        query = query.filter(location__icontains=location)
-    if employment_type:
-        query = query.filter(employment_type__icontains=employment_type)
-    if industries:
-        query = query.filter(industries__icontains=industries)
+    # Iterate over all databases
+    for db in DATABASES:
+        query = Job.objects.using(db).all()
+
+        # Apply filters
+        if title:
+            query = query.filter(title__icontains=title)
+        if selected_states:
+            query = query.filter(state_code__in=selected_states)
+        if location:
+            query = query.filter(location__icontains=location)
+        if employment_type:
+            query = query.filter(employment_type__icontains=employment_type)
+        if industries:
+            query = query.filter(industries__icontains=industries)
+        
+        combined_query.extend(list(query))
 
     # Set up pagination
-    paginator = Paginator(query, 20)  # 20 jobs per page
+    paginator = Paginator(combined_query, 20)  # 20 jobs per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # Rebuild the query string without 'page' parameter
+    # Rebuild the query string without 'page' parameter for pagination links
     query_params = request.GET.copy()
     if 'page' in query_params:
         del query_params['page']
     query_string = urlencode(query_params, doseq=True)
-    
-    return render(request, 'blog/search_form.html',
-                  {
-                        'page_obj': page_obj,
-                        'states': states,
-                        'selected_states': state_code,
-                        'query_string': query_string
-                  })
 
-    # return render(request, 'blog/search_form.html', {'page_obj': page_obj})
-
-# def add_to_favorites(request, job_id):
-#     # Get the list of favorites from the session, or an empty list if none exist
-#     favorites = request.session.get('favorites', [])
-#     # Add job_id to favorites list if not already included
-#     if job_id not in favorites:
-#         favorites.append(job_id)
-#         request.session['favorites'] = favorites  # Save back to session
-#         messages.add_message(request, messages.INFO, 'This job was added to your favorites.')
-#     else:
-#         messages.add_message(request, messages.INFO, 'This job is already in your favorites.')
-    
-#     # Stay on the same page, or wherever appropriate
-#     return redirect(request.META.get('HTTP_REFERER', 'home'))
+    return render(request, 'blog/search_form.html', {
+        'page_obj': page_obj,
+        'states': sorted(list(chain(*DATABASE_MAPPING.values()))),  # Provide all available states for UI
+        'selected_states': selected_states,
+        'query_string': query_string
+    })
 
 
-def add_to_favorites(request, job_id):
-    # Convert job_id to string if it's not, to ensure consistent handling in session
-    job_id = str(job_id)
+class PostListView(ListView):
+    model = Job
+    template_name = 'blog/home.html'
+    context_object_name = 'jobs'
+    ordering = ['-date_posted']
+    paginate_by = 5
 
-    # Get the list of favorites from the session, or an empty list if none exist
-    favorites = request.session.get('favorites', [])
 
-    # Add job_id to favorites list if not already included
-    if job_id not in favorites:
-        favorites.append(job_id)
-        request.session['favorites'] = favorites  # Save back to session
-        request.session.save()
-        messages.add_message(request, messages.INFO, 'This job was added to your favorites.')
-    else:
-        messages.add_message(request, messages.INFO, 'This job is already in your favorites.')
-    
-    # Redirect back to the referring page, if possible, or to the home page
-    return redirect(request.META.get('HTTP_REFERER', '/'))  # Use '/' as a more neutral default
+class UserPostListView(ListView):
+    model = Job
+    template_name = 'blog/user_posts.html'
+    context_object_name = 'jobs'
+    # ordering = ['-date_posted']
+    paginate_by = 5
+    def get_queryset(self):
+        agency_name = self.kwargs.get('username')
 
-def favorite_jobs(request):
-    # Retrieve the list of favorite job IDs from the session
-    favorite_ids = request.session.get('favorites', [])
-    print("Favorite IDs:", favorite_ids)  # Debug statement to see what IDs are retrieved
+        # Query jobs from all databases
+        default_jobs = Job.objects.filter(agency=agency_name).order_by('-date_posted')
+        first_jobs = Job.objects.using('first').filter(agency=agency_name).order_by('-date_posted')
+        second_jobs = Job.objects.using('second').filter(agency=agency_name).order_by('-date_posted')
+        third_jobs = Job.objects.using('third').filter(agency=agency_name).order_by('-date_posted')
 
-    # Fetch the jobs from the database based on the IDs stored in the session
-    if favorite_ids:
-        jobs = Job.objects.filter(id__in=favorite_ids)
-        print("Jobs found:", jobs.count())  # Debug to see if jobs are being found
-    else:
-        jobs = Job.objects.none()
+        # Combine all results
+        combined_jobs = list(chain(default_jobs, first_jobs, second_jobs, third_jobs))
 
-    return render(request, 'blog/favorite_jobs.html', {'jobs': jobs})
+        # Sort the combined list by date_posted
+        return sorted(combined_jobs, key=lambda job: job.date_posted, reverse=True)
+class PostDetailView(DetailView):
+    model = Job
+    template_name = 'blog/job_detail.html'  # Add the template name explicitly
 
-def remove_from_favorites(request, job_id):
-    # Convert job_id to the correct type if necessary
-    job_id = str(job_id)
-    # Retrieve the list of favorite job IDs from the session
-    favorite_ids = request.session.get('favorites', [])
-    # Remove the job ID from the list if it exists
-    if job_id in favorite_ids:
-        favorite_ids.remove(job_id)
-        request.session['favorites'] = favorite_ids  # Update the session
-        request.session.save()  # Make sure to save the session changes
-    # Redirect to the favorite jobs page or return an appropriate response
-    return HttpResponseRedirect(reverse('favorite-jobs'))
+
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Job
+    fields = ['job_title', 'agency']
+    template_name = 'blog/job_form.html'  # Add the template name explicitly
+
+    def form_valid(self, form):
+        form.instance.agency = self.request.user.username  # Assign the username as agency
+        return super().form_valid(form)
+
+
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Job
+    fields = ['job_title', 'agency']
+    template_name = 'blog/job_form.html'  # Add the template name explicitly
+
+    def form_valid(self, form):
+        form.instance.agency = self.request.user.username  # Assign the username as agency
+        return super().form_valid(form)
+
+    def test_func(self):
+        job = self.get_object()
+        return self.request.user.username == job.agency  # Compare the username with agency
+
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Job
+    success_url = '/'
+    template_name = 'blog/job_confirm_delete.html'  # Add the template name explicitly
+
+    def test_func(self):
+        job = self.get_object()
+        return self.request.user.username == job.agency 
 
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
