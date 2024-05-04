@@ -11,6 +11,19 @@
 - [LinkedIn Scrape](https://github.com/Jinyangd/DSCI551_Group48_Project/blob/main/linkedin_scrape.py)
   Code for scraping dataset by using Selenium WebDriver & BeautifulSoup HTML Parser.
 
+## Setting Up
+- Clone the repository.
+- Install dependencies.
+- Configure the database:
+  change "db_one", "db_two" and "db_three" to your existing choice of 3 databases
+- Run migrations:
+```
+python manage.py makemigrations
+python manage.py migrate
+python manage.py migrate --database=<db_name> # for each <db_name>
+```
+- Start the development server: python manage.py runserver
+
 ## Running
 - **Scraping data from LinkedIn**
 ```shell
@@ -29,15 +42,3 @@ python manage.py remove_jobs "all" "<start_date>" "<end_date>"
 ```shell
 python manage.py runserver
 ```
-## Setting Up
-- Clone the repository.
-- Install dependencies.
-- Configure the database:
-  change "db_one", "db_two" and "db_three" to your existing choice of 3 databases
-- Run migrations:
-```
-python manage.py makemigrations
-python manage.py migrate
-python manage.py migrate --database=<db_name> # for each <db_name>
-```
-- Start the development server: python manage.py runserver
