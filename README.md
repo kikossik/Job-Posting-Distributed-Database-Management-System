@@ -22,9 +22,6 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py migrate --database=<db_name> # for each <db_name>
 ```
-- Start the development server: python manage.py runserver
-
-## Running
 - **Scraping data from LinkedIn**
 ```shell
 python linkedin_scrape.py
@@ -38,7 +35,7 @@ python manage.py import_jobs "<location_to_the_csv_file>"
 ```shell
 python manage.py remove_jobs "all" "<start_date>" "<end_date>"
 ```
-- **Get into the Django Webpage**
+- **Start the development server**
 ```shell
 python manage.py runserver
 ```
