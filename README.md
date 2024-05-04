@@ -9,6 +9,10 @@
 - [LinkedIn Scrape](https://github.com/Jinyangd/DSCI551_Group48_Project/blob/main/linkedin_scrape.py)
   Code of scraping dataset by using Selenium WebDriver & BeautifulSoup HTML Parser.
 
+## Setup (what language we need to install firstly in the project?)
+- **Installation**
+
+
 ## Running
 - **Scraping data from LinkedIn**
 ```shell
