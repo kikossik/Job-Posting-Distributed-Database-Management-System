@@ -1,5 +1,5 @@
 # Job Posting Database Management System
-# DSCI551_Group48_Project
+## DSCI551_Group48_Project
 **[Youtube Video Demo](https://www.youtube.com)**
 
 ## Table of Contents ((Description of directories and what each file does)
