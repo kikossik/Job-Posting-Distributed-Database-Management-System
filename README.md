@@ -1,7 +1,7 @@
 # Job Posting Database Management System
-**[Youtube Video Demo](https://www.youtube.com)**
 ### DSCI551 | Group48: David Tovmasyan & Jinyang Du & Wenjing Huang
 #### The project aims to create a Django-based Database Management System for job postings, which enhance the job search and recruitment process by providing a user-friendly, efficient, and interactive job posting platform.
+**[Youtube Video Demo](https://www.youtube.com)**
 
 ## Description of Directories
 - [Django Frontend Design](https://github.com/Jinyangd/DSCI551_Group48_Project/tree/main/django_project)
