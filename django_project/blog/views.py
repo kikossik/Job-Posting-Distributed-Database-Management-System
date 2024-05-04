@@ -110,6 +110,7 @@ class UserPostListView(ListView):
 
         # Sort the combined list by date_posted
         return sorted(combined_jobs, key=lambda job: job.date_posted, reverse=True)
+    
 class PostDetailView(DetailView):
     model = Job
     template_name = 'blog/job_detail.html'  # Add the template name explicitly
