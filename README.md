@@ -5,13 +5,9 @@
 
 ## Description of Directories
 - [Django Frontend Design](https://github.com/Jinyangd/DSCI551_Group48_Project/tree/main/django_project)
-  Our user-Friendly Frontend Django design for the project. 
+  Our User-Friendly Frontend Django Design.
 - [LinkedIn Scrape](https://github.com/Jinyangd/DSCI551_Group48_Project/blob/main/linkedin_scrape.py)
-  Code of scraping dataset by using Selenium WebDriver & BeautifulSoup HTML Parser.
-
-## Setup (what language we need to install firstly in the project?)
-- **Installation**
-
+  Code for scraping dataset by using Selenium WebDriver & BeautifulSoup HTML Parser.
 
 ## Running
 - **Scraping data from LinkedIn**
@@ -19,7 +15,15 @@
 python linkedin_scrape.py
 ```
 Download the [example.csv](https://drive.google.com/file/d/1RLI85-oi-JQM9OdJEVLjCz-DFzeScRY5/view?usp=sharing) with pre-processed data, because it took us 2 hours to get the csv file.
-- **Getting the Django Webpage**
+- **Insert the dataset to Webpage**
+```shell
+python manage.py import_jobs "<location_to_the_csv_file>"
+```
+- **If you want to delete the job in a time range**
+```shell
+python manage.py remove_jobs "all" "<start_date>" "<end_date>"
+```
+- **Get into the Django Webpage**
 ```shell
 python manage.py runserver
 ```
