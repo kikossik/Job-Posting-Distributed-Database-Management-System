@@ -4,11 +4,8 @@
 #### The project aims to create a Django-based Database Management System for job postings, to enhance the job search and recruitment process by providing a user-friendly, efficient, and interactive job posting platform.
 
 ## Description of directories and what each file does
-- [Django Design](https://github.com/Jinyangd/DSCI551_Group48_Project/tree/main/django_project)
-- [LinkedIn Scrape](#linkedin_scrape.py)
-- [Contributing](#contributing)
-- [License](#license)
-- [Credits](#credits)
+- [Django Frontend Design](https://github.com/Jinyangd/DSCI551_Group48_Project/tree/main/django_project)
+- [LinkedIn Scrape](https://github.com/Jinyangd/DSCI551_Group48_Project/blob/main/linkedin_scrape.py)
 
 ## Running
 - **Scraping data from LinkedIn**
