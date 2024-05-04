@@ -3,7 +3,7 @@
 ### DSCI551 | Group48: David Tovmasyan & Jinyang Du & Wenjing Huang
 #### The project aims to create a Django-based Database Management System for job postings, which enhance the job search and recruitment process by providing a user-friendly, efficient, and interactive job posting platform.
 
-## Description of directories and what each file does
+## Description of Directories
 - [Django Frontend Design](https://github.com/Jinyangd/DSCI551_Group48_Project/tree/main/django_project)
   Our user-Friendly Frontend Django design for the project. 
 - [LinkedIn Scrape](https://github.com/Jinyangd/DSCI551_Group48_Project/blob/main/linkedin_scrape.py)
