@@ -5,7 +5,7 @@
 
 ## Description of Directories
 - [Django Frontend Design](https://github.com/Jinyangd/DSCI551_Group48_Project/tree/main/django_project)
-  Our User-Friendly Frontend Django Design.
+  Our User-Friendly Frontend Django Design, including with all the backend functionalities as well.
 - [LinkedIn Scrape](https://github.com/Jinyangd/DSCI551_Group48_Project/blob/main/linkedin_scrape.py)
   Code for scraping dataset by using Selenium WebDriver & BeautifulSoup HTML Parser.
 
