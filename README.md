@@ -35,6 +35,9 @@ python manage.py runserver
 - Configure the database:
   change "db_one", "db_two" and "db_three" to your existing choice of 3 databases
 - Run migrations:
-python manage.py makemigrations |
+```
+python manage.py makemigrations
 python manage.py migrate
+python manage.py migrate --database=<db_name> # for each <db_name>
+```
 - Start the development server: python manage.py runserver
