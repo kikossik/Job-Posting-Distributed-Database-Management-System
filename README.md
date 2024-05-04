@@ -1,16 +1,18 @@
 # Job Posting Database Management System
 **[Youtube Video Demo](https://www.youtube.com)**
-### DSCI551 | Group48 | David Tovmasyan & Jinyang Du &Wenjing Huang
+### DSCI551 | Group48 | David Tovmasyan & Jinyang Du & Wenjing Huang
 #### The project aims to create a Django-based Database Management System for job postings, to enhance the job search and recruitment process by providing a user-friendly, efficient, and interactive job posting platform.
 
-## Table of Contents ((Description of directories and what each file does)
+## Table of Contents (Description of directories and what each file does)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
 - [Credits](#credits)
 
-## Command to run the code
+## Running
+- **Scraping data from LinkedIn**
+```shell
+python linkedin_scrape.py
 ```
-put the code here
-```
+Download the [example.csv](https://drive.google.com/file/d/1RLI85-oi-JQM9OdJEVLjCz-DFzeScRY5/view?usp=sharing) with pre-processed data!
