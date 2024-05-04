@@ -5,9 +5,9 @@
 
 ## Description of directories and what each file does
 - [Django Frontend Design](https://github.com/Jinyangd/DSCI551_Group48_Project/tree/main/django_project)
-  To our user-Friendly Frontend Django design for the project. 
+  Our user-Friendly Frontend Django design for the project. 
 - [LinkedIn Scrape](https://github.com/Jinyangd/DSCI551_Group48_Project/blob/main/linkedin_scrape.py)
-  To the code of scraping dataset by using Selenium WebDriver & BeautifulSoup HTML Parser.
+  Code of scraping dataset by using Selenium WebDriver & BeautifulSoup HTML Parser.
 
 ## Running
 - **Scraping data from LinkedIn**
