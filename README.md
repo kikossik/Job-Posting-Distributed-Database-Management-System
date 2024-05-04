@@ -5,13 +5,24 @@
 
 ## Description of Directories
 - [Django Frontend Design](https://github.com/Jinyangd/DSCI551_Group48_Project/tree/main/django_project)
-  Our user-Friendly Frontend Django design for the project. 
+  Our amazing Frontend Django Design, including with all the backend functionalities.
+- [Direction to the Hash Function](https://github.com/Jinyangd/DSCI551_Group48_Project/blob/main/django_project/blog/management/commands/import_jobs.py)
+  The mainly Hash function to get the partition.
 - [LinkedIn Scrape](https://github.com/Jinyangd/DSCI551_Group48_Project/blob/main/linkedin_scrape.py)
-  Code of scraping dataset by using Selenium WebDriver & BeautifulSoup HTML Parser.
+  Code for scraping dataset by using Selenium WebDriver & BeautifulSoup HTML Parser.
 
-## Setup (what language we need to install firstly in the project?)
-- **Installation**
-
+## Setting Up
+- Clone the repository.
+- Install dependencies.
+- Configure the database:
+  change "db_one", "db_two" and "db_three" to your existing choice of 3 databases
+- Run migrations:
+```
+python manage.py makemigrations
+python manage.py migrate
+python manage.py migrate --database=<db_name> # for each <db_name>
+```
+- Start the development server: python manage.py runserver
 
 ## Running
 - **Scraping data from LinkedIn**
@@ -19,7 +30,15 @@
 python linkedin_scrape.py
 ```
 Download the [example.csv](https://drive.google.com/file/d/1RLI85-oi-JQM9OdJEVLjCz-DFzeScRY5/view?usp=sharing) with pre-processed data, because it took us 2 hours to get the csv file.
-- **Getting the Django Webpage**
+- **Insert the dataset to Webpage**
+```shell
+python manage.py import_jobs "<location_to_the_csv_file>"
+```
+- **If you want to delete the job in a time range**
+```shell
+python manage.py remove_jobs "all" "<start_date>" "<end_date>"
+```
+- **Get into the Django Webpage**
 ```shell
 python manage.py runserver
 ```
