@@ -29,3 +29,12 @@ python manage.py remove_jobs "all" "<start_date>" "<end_date>"
 ```shell
 python manage.py runserver
 ```
+## Setting Up
+- Clone the repository.
+- Install dependencies.
+- Configure the database:
+  change "db_one", "db_two" and "db_three" to your existing choice of 3 databases
+- Run migrations:
+python manage.py makemigrations |
+python manage.py migrate
+- Start the development server: python manage.py runserver
