@@ -1,4 +1,4 @@
-# Job Posting Database Management System
+# Job Posting Distributed Database Management System
 ### Developers: David Tovmasyan & Jinyang Du & Wenjing Huang
 #### The project aims to create a Django-based Distributed Database Management System for job postings, which enhance the job search and recruitment process by providing a user-friendly, efficient, and interactive job posting platform.
 **[Implementation Demo](https://www.youtube.com/watch?v=qOf86i9TUbQ)**
