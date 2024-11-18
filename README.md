@@ -6,8 +6,7 @@
 ## Description of Directories
 - [Django Frontend Design](https://github.com/kikossik/Job-Posting-Distributed-Database-Management-System/tree/main/django_project)
   Our amazing Frontend Django Design, including with all the backend functionalities.
-- [Direction to the Hash Function]([https://github.com/kikossik/Job-Posting-Distributed-Database-Management-System/blob/main/django_project/blog/management/commands/import_jobs.py](https://github.com/kikossik/Job-Posting-Distributed-Database-Management-System/blob/main/django_project/blog/management/commands/import_jobs.py#L40-L47
-))
+- [Direction to the Hash Function](https://github.com/kikossik/Job-Posting-Distributed-Database-Management-System/blob/main/django_project/blog/management/commands/import_jobs.py#L40-L47)
   The mainly Hash function to get the partition.
 - [LinkedIn Scrape](https://github.com/kikossik/Job-Posting-Distributed-Database-Management-System/blob/main/linkedin_scrape.py)
   Code for scraping dataset by using Selenium WebDriver & BeautifulSoup HTML Parser.
