@@ -4,11 +4,11 @@
 
 
 ## Description of Directories
-- [Django Frontend Design](https://github.com/Jinyangd/DSCI551_Group48_Project/tree/main/django_project)
+- [Django Frontend Design](https://github.com/kikossik/Job-Posting-Distributed-Database-Management-System/tree/main/django_project)
   Our amazing Frontend Django Design, including with all the backend functionalities.
-- [Direction to the Hash Function](https://github.com/Jinyangd/DSCI551_Group48_Project/blob/main/django_project/blog/management/commands/import_jobs.py)
+- [Direction to the Hash Function](https://github.com/kikossik/Job-Posting-Distributed-Database-Management-System/blob/main/django_project/blog/management/commands/import_jobs.py)
   The mainly Hash function to get the partition.
-- [LinkedIn Scrape](https://github.com/Jinyangd/DSCI551_Group48_Project/blob/main/linkedin_scrape.py)
+- [LinkedIn Scrape](https://github.com/kikossik/Job-Posting-Distributed-Database-Management-System/blob/main/linkedin_scrape.py)
   Code for scraping dataset by using Selenium WebDriver & BeautifulSoup HTML Parser.
 
 ## Setting Up
